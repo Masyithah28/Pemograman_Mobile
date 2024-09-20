@@ -41,11 +41,15 @@ Kode untuk membuat aplikasi Flutter dengan tombol yang menambah angka setiap kal
 Kode diatas menampilkan aplikasi Flutter dengan tombol yang, ketika ditekan, akan menampilkan dialog peringatan berjudul "My title" dan pesan "This is my message." Dialog ini juga memiliki tombol "OK" untuk menutupnya.
 ![Screenshot Praktikum 4 langkah 4](Images/Prak4_04.png)
 ### Langkah 5 - Input dan Selection Widget          
-Kode tersebut menampilkan Text Field dan memasukkan nama 'Masyithah Sophia Damayanti'.
+Kode tersebut menampilkan Text Field untuk memasukkan nama 'Masyithah Sophia Damayanti'.
 ![Screenshot Praktikum 4 langkah 5](Images/Prak4_05.png)
 ### Langkah 6 - Date and Time Pickers       
-Kode akan menampilkan Date atau tanggal.
+Kode menampilkan input dan selection widget berupa Date and Time Pickers
 ![Screnshot Praktikum 4 langkah 6](Images/Prak4_06.png)     
+
+![Screnshot Praktikum 4 langkah 6](Images/Prak4_07.png)         
+
+![Screenshot Praktikum 4 langkah 6](Images/Prak4_08.png)
 
 
 
