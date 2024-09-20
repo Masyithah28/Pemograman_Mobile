@@ -8,10 +8,10 @@ NIM         : 2241720011
 ## Praktikum 1: Membuat Project Flutter Baru
 ### Langkah 1 
 Pilih New Project
-![alt text](image.png)      
+![Screenshot Praktikum 1 langkah 1](Images/Prak1_01.png)      
 ### Langkah 2
 Selanjutnya Pilih Application    
-![alt text](image.jpg)      
+![Screenshot Praktikum 1 langkah 2](Images/Prak1_02.jpg)      
 ### Langkah 3 
 Buat nama folder yang bernama Pertemuan 6 - Widget Dasar Flutter kemudian tekan 'select a folder the project in' 
 ### Langkah 4
@@ -19,24 +19,33 @@ Selanjutnya membuat nama di project name dengan judul'hello_world'
 
 ## Praktikum 2 - Membuat Repository GitHub dan Laporan Praktikum            
 ### Langkah 11
+Menampilkan Halaman Aplikasi dengan Judul 'Flutter Demo Home Page' dan juga terdapat float button yang bisa menambah saat di klik buttonnya.
 ![Screenshot hello_world](Images/01.png)        
 ### Langkah 12      
-![Screenshot langkah 12](02.png)        
+Menampilkan file di readme dan preview.     
+![Screenshot langkah 12](Images/Prak2_02.png)        
 
 ## Praktikum 3 - Menerapkan Widget Dasar               
 ### Langkah 1 - Text Widget         
-![Screenshot Praktikum 3 langkah 1](Prak3_01.png)      
+Kode diatas mendefinisikan sebuah widget yang bernama'MyTextWidget' dengan memunculkan hasil 'Nama saya Masyithah Sophia Damayanti,sedang belajar Pemograman Mobile' dengan font teks berwarna merah, ukuran font 14, dan teks diatur rata tengah (TextAlign.center).
+![Screenshot Praktikum 3 langkah 1](Images/Prak3_01.png)      
 ### Langkah 2 - Image Widget        
-![Screenshot Praktikum 3 langkah 2](Prak3_02.png)
+Kode tersebut membuat widget 'MyImageWidget' untuk menampilkan gambar logo_polinema.jpg dari aset lokal, yang harus dideklarasikan di file pubspec.yaml.   
+![Screenshot Praktikum 3 langkah 2](Images/Prak3_02.png)
 
 ## Praktikum 4 - Menerapkan Widget Material Design dan iOS Cupertino        
-### Langkah 3 - Scaffold Widget     
-![Screenshot Praktikum 4 langkah 3](Prak4%20_03.png)
-### Langkah 4 - Dialog Widget       
-![Screenshot Praktikum 4 langkah 4](Prak4_04.png)
-### Langkah 5 - Input dan Selection Widget              
-![Screenshot Praktikum 4 langkah 5](Prak4_05.png)
-### Langkah 6 - Date and Time Pickers
-![Screnshot Praktikum 4 langkah 6](Prak4_06.png)
+### Langkah 3 - Scaffold Widget         
+Kode untuk membuat aplikasi Flutter dengan tombol yang menambah angka setiap kali ditekan, menampilkan hasilnya di tengah layar, menggunakan setState() untuk memperbarui tampilan.    
+![Screenshot Praktikum 4 langkah 3](Images/Prak4%20_03.png)
+### Langkah 4 - Dialog Widget           
+Kode diatas menampilkan aplikasi Flutter dengan tombol yang, ketika ditekan, akan menampilkan dialog peringatan berjudul "My title" dan pesan "This is my message." Dialog ini juga memiliki tombol "OK" untuk menutupnya.
+![Screenshot Praktikum 4 langkah 4](Images/Prak4_04.png)
+### Langkah 5 - Input dan Selection Widget          
+Kode tersebut menampilkan Text Field dan memasukkan nama 'Masyithah Sophia Damayanti'.
+![Screenshot Praktikum 4 langkah 5](Images/Prak4_05.png)
+### Langkah 6 - Date and Time Pickers       
+Kode akan menampilkan Date atau tanggal.
+![Screnshot Praktikum 4 langkah 6](Images/Prak4_06.png)     
+
 
 
