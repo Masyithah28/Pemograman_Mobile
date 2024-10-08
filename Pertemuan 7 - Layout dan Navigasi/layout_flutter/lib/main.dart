@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
         'Air Coban talun berasal dari aliran Sungai Brantas yang masuk ke dalam hutan lindung dan memiliki aliran  yang deras. (Masyithah 2241720011)',
         softWrap: true,
       ),
-    );
+    ); 
 
     return MaterialApp(
       title: 'Flutter Demo: Masyithah Sophia Damayanti/2241720011',
