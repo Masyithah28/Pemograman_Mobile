@@ -740,7 +740,8 @@ class ItemPage extends StatelessWidget {
 }   
 ```   
 ## Hasil Tugas 2:   
-![alt text](image/HT2.gif )     
+![alt text](image/HT2.gif )      
+
 
 
 
