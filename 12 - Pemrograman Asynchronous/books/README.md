@@ -145,5 +145,25 @@ class _FuturePageState extends State<FuturePage> {
 ## Praktikum 2: Menggunakan await/async untuk menghindari callbacks         
 
 ### Langkah 1: Buka file main.dart          
+![alt text](images/P2L1.png)        
+
+### Langkah 2: Tambah method count()        
+![alt text](images/P2L2.png)        
+
+### Langkah 3: Panggil count()      
+![alt text](images/P2L3.png)        
+
+### Langkah 4: Run 
+Soal 4 dan Hasil:           
+![alt text](images/Prak2S1.gif)         
+Penjelasan:    
+* Kode langkah 1: Terdapat 3 fungsi asynchronous (returnOneAsync, returnTwoAsync, returnThreeAsync) masing-masing menunggu 3 detik sebelum mengembalikan angka 1, 2, dan 3.
+* Kode langkah 2: Untuk fungsi count menjalankan ketiga fungsi di atas secara berurutan, menambahkan hasilnya ke total. Setelah semua selesai, hasilnya (total = 6) ditampilkan pada UI melalui setState().     
+
+## Praktikum 3: Menggunakan Completer di Future     
+
+### Langkah 1: Buka main.dart       
+
+
 
 
