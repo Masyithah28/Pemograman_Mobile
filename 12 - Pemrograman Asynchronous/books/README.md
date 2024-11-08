@@ -163,6 +163,175 @@ Penjelasan:
 ## Praktikum 3: Menggunakan Completer di Future     
 
 ### Langkah 1: Buka main.dart       
+![alt text](images/P3L1.png)        
+
+### Langkah 2: Tambahkan variabel dan method        
+![alt text](images/P3L2.png)        
+
+### Langkah 3: Ganti isi kode onPressed() 
+![alt text](images/P3L3.png)        
+
+### Langkah 4: 
+Soal 5 dan Hasil:     
+![alt text](images/Prak3S1.gif)         
+Penjelasan:         
+Kode Program menggunakan Completer untuk mengontrol kapan Future selesai:
+
+getNumber(): Membuat Future yang belum selesai dan menjalankan calculate() untuk mengisi hasilnya.
+calculate(): Menunggu 5 detik, lalu melengkapi Future dengan nilai 42.
+Setelah 5 detik, getNumber() akan menghasilkan nilai 42.        
+
+### Langkah 5: Ganti method calculate()     
+![alt text](images/P3L5.png)        
+
+### Langkah 6: Pindah ke onPressed()        
+![alt text](images/P3L6.png)        
+Soal 6 dan Hasil:           
+![alt text](images/Prak3S2.gif)     
+Penjelasan:         
+* Langkah 2: Kode langkah 2 tidak menangani kesalahan, hanya menunggu 5 detik dan mengembalikan 42.     
+* Langkah 5: berfungsi untuk memperbarui calculate() dengan cara menangani error pakai try-catch. jika proses berhasil, completer.complete(42) akan dipanggil setelah 5 detik. Tapi kalau ada masalah, completer.completeError({}) yang dipakai untuk menandai ada kesalahan.       
+* Langkah 6: fungsi 'getNumber().then' untuk memproses hasil jika berhasil dan '(result = value.toString())', atau '.catchError(...)' untuk menampilkan pesan 'An error occurred' jika terjadi kesalahan.       
+``` dart        
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
+import 'package:async/async.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'sofiaa',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: const FuturePage(),
+    );
+  }
+}
+
+class FuturePage extends StatefulWidget {
+  const FuturePage({super.key});
+
+  @override
+  State<FuturePage> createState() => _FuturePageState();
+}
+
+class _FuturePageState extends State<FuturePage> {
+  String result = '';
+  late Completer completer;
+
+Future getNumber() {
+  completer = Completer<int>();
+  calculate();
+  return completer.future;
+}
+
+Future calculate() async {
+  try {
+    await Future.delayed(const Duration(seconds : 5));
+    completer.complete(42);
+  }
+  catch(_) {
+    completer.completeError({});
+  }
+}
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Back from the Future Sofiaaa'),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            const Spacer(),
+            ElevatedButton(
+              child: Text('GO!'),
+              onPressed: (){
+                getNumber().then( (value) {
+                setState(() {
+                  result = value. toString();
+                });
+              }).catchError((_){
+                  result = 'An error occured';
+                });
+                //count();
+                // setState(() {
+                  
+                // });
+                // getData().then((value){
+                //   result = value.body.toString().substring(0,450);
+                //   setState(() {
+                    
+                //   });
+                // }).catchError((_){
+                //   result = 'An error occured';
+                //   setState(() {
+                    
+                //   });
+                // });
+              },
+            ),
+            const Spacer(),
+            Text(result),
+            const Spacer(),
+            const CircularProgressIndicator(),
+            const Spacer(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<Response> getData() async {
+    const authority = 'www.googleapis.com';
+    const path = '/books/v1/volumes/h0WGEAAAQBAJ';
+    Uri url = Uri.https(authority, path);
+    return http.get(url);
+  } 
+
+  Future<int> returnOneAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 1;
+  }
+
+  Future<int> returnTwoAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 2;
+  }
+
+  Future<int> returnThreeAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 3;
+  }
+
+  Future count() async {
+    int total = 0;
+    total = await returnOneAsync();
+    total += await returnTwoAsync();
+    total += await returnThreeAsync();
+    setState(() {
+      result = total.toString();
+    });
+  }
+  
+}
+```     
+###
+
+
 
 
 

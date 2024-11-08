@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:async/async.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,12 +35,28 @@ class FuturePage extends StatefulWidget {
 
 class _FuturePageState extends State<FuturePage> {
   String result = '';
+  late Completer completer;
 
+Future getNumber() {
+  completer = Completer<int>();
+  calculate();
+  return completer.future;
+}
+
+Future calculate() async {
+  try {
+    await Future.delayed(const Duration(seconds : 5));
+    completer.complete(42);
+  }
+  catch(_) {
+    completer.completeError({});
+  }
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Back from the Future'),
+        title: const Text('Back from the Future Sofiaaa'),
       ),
       body: Center(
         child: Column(
@@ -46,7 +65,14 @@ class _FuturePageState extends State<FuturePage> {
             ElevatedButton(
               child: Text('GO!'),
               onPressed: (){
-                count();
+                getNumber().then( (value) {
+                setState(() {
+                  result = value. toString();
+                });
+              }).catchError((_){
+                  result = 'An error occured';
+                });
+                //count();
                 // setState(() {
                   
                 // });
@@ -105,4 +131,5 @@ class _FuturePageState extends State<FuturePage> {
       result = total.toString();
     });
   }
+  
 }
