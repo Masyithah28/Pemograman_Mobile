@@ -93,7 +93,10 @@ Soal 2 dan Hasil:
 
 ### Langkah 5: Tambah kode di ElevatedButton        
 Soal 3 dan Hasil:                  
-![alt text](images/Prak1S3.gif) 
+![alt text](images/Prak1S3.gif)         
+Penjelasan:         
+1. substring(0, 450) untuk mengambil 450 karakter pertama dari hasil data value.body, agar hanya sebagian data yang ditampilkan.
+2. catchError untuk menangani kesalahan yang terjadi saat memanggil getData(), dan mengatur result menjadi 'An error occurred' agar aplikasi tetap berjalan tanpa crash.
 ``` dart
 class _FuturePageState extends State<FuturePage> {
   String result = '';
@@ -138,3 +141,9 @@ class _FuturePageState extends State<FuturePage> {
     );
   }        
 ```     
+
+## Praktikum 2: Menggunakan await/async untuk menghindari callbacks         
+
+### Langkah 1: Buka file main.dart          
+
+
