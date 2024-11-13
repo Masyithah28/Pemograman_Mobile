@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:async/async.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -65,13 +66,24 @@ Future calculate() async {
             ElevatedButton(
               child: Text('GO!'),
               onPressed: (){
-                getNumber().then( (value) {
-                setState(() {
-                  result = value. toString();
-                });
-              }).catchError((_){
-                  result = 'An error occured';
-                });
+                returnError()
+                .then ((value){
+                  setState(() {
+                    result ='Success';
+                  });
+                }).catchError((onError){
+                  setState(() {
+                    result = onError.toString();
+                  });
+                }).whenComplete(() => print('Complete'));
+                // returnFG();
+              //   getNumber().then( (value) {
+              //   setState(() {
+              //     result = value. toString();
+              //   });
+              // }).catchError((_){
+              //     result = 'An error occured';
+              //   });
                 //count();
                 // setState(() {
                   
@@ -131,5 +143,41 @@ Future calculate() async {
       result = total.toString();
     });
   }
+
+  void returnFG() {
+    final futures = Future.wait<int>([
+      returnOneAsync(),
+      returnTwoAsync(),
+      returnThreeAsync(),
+    ]);
+    futures.then((List <int> value){
+      int total = 0;
+      for (var element in value){
+        total += element;
+      }
+      setState(() {
+        result = total.toString();
+      });
+    });   
+  }
   
+  Future returnError() async {
+    await Future.delayed(const Duration(seconds: 2));
+    throw Exception('Something terrible happened!');
+  }
+  
+  Future handleError() async {
+      try {
+        await returnError();
+      }
+    catch (error) {
+      setState(() {
+        result = error.toString();
+      });
+    }
+    finally {
+      print('Complete');
+    }
+  }
+
 }

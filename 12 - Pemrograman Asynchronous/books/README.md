@@ -329,7 +329,65 @@ Future calculate() async {
   
 }
 ```     
-###
+## Praktikum 4: Memanggil Future secara paralel     
+
+### Langkah 1: Buka file main.dart      
+![alt text](images/P4L1.png)        
+
+### Langkah 2: Edit onPressed()     
+![alt text](images/P4L2.png)        
+
+### Langkah 3: Run      
+Soal 7 dan Hasil:            
+![alt text](images/Prak4S1.gif)         
+
+### Langkah 4: Ganti variabel futureGroup       
+![alt text](images/P4L4.png)        
+Soal 8 dan hasil:       
+![alt text](images/Prak4S2.gif)     
+Penjelasan:     
+* Langkah 1: 'FutureGroup' untuk menambahkan beberapa Future dan menunggu sampai semuanya selesai, lalu mengolah hasilnya.            
+* Langkah 4: 'Future.wait' untuk langsung menunggu beberapa Future sekaligus dan dapatkan hasilnya dalam satu daftar, lebih simpel dan cepat.       
+
+## Praktikum 5: Menangani Respon Error pada Async Code      
+
+### Langkah 1: Buka file main.dart          
+![alt text](images/P5L1.png)        
+
+### Langkah 2: ElevatedButton    
+![alt text](images/P5L2.png)   
+
+### Langkah 3: Run    
+![alt text](images/Prak5S1.gif)        
+
+### Langkah 4: Tambah method handleError()    
+![alt text](images/P5L4.png)      
+
+Soal 10 dan Hasil:      
+![alt text](images/Prak5S2.gif)     
+Penjelasan:     
+Perbedaan Kode Langkah 1 dan Langkah 4
+
+Langkah 1: Menggunakan then(), catchError, dan whenComplete.        
+* Memanfaatkan callback then() untuk menangani success dan catchError untuk menangani error.
+* whenComplete akan dijalankan setelah proses selesai, baik itu sukses maupun gagal.
+* Kode ini lebih pendek namun mungkin sulit dibaca ketika ada banyak nested callbacks.    
+Langkah 4: Menggunakan try-catch-finally dengan async/await.    
+
+* Lebih sederhana dan rapi karena menggunakan try-catch untuk menangani error.
+* finally berfungsi mirip dengan whenComplete dalam then(), tetapi lebih terstruktur dalam pola async/await.
+* Cocok untuk kode asynchronous yang lebih kompleks, karena async/await lebih mudah dibaca dan dipahami.    
+
+##  Praktikum 6: Menggunakan Future dengan StatefulWidget
+
+
+
+
+
+
+
+
+
 
 
 
