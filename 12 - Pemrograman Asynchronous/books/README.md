@@ -610,7 +610,201 @@ Perubahan UI: UI sekarang lebih interaktif dengan tombol yang memungkinkan pengg
           ],
         ),
       ),
-```   
+```       
+
+## Praktikum 9: Memanfaatkan async/await dengan Widget Dialog   
+
+### Langkah 1: Buat file baru navigation_dialog.dart    
+![alt text](images/P9L1.png)    
+
+### Langkah 2: Isi kode navigation_dialog.dart    
+![alt text](images/P9L2.png)    
+
+### Langkah 3: Tambah method async    
+![alt text](images/P9L3.png)    
+
+### Langkah 4: Panggil method di ElevatedButton   
+![alt text](images/P9L4.png)    
+
+### Langkah 5: Edit main.dart   
+![alt text](images/P9L5.png)      
+
+### Langkah 6: Run    
+![alt text](images/Prak9S1.gif)       
+``` dart
+import 'package:flutter/material.dart';
+
+class NavigationDialogScreen extends StatefulWidget {
+  const NavigationDialogScreen({super.key});
+
+  @override
+  State<NavigationDialogScreen> createState() => _NavigationDialogScreenState();
+}
+
+class _NavigationDialogScreenState extends State<NavigationDialogScreen> {
+  Color color = Colors.blue.shade700;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: color,
+      appBar: AppBar(
+        title: const Text('Navigation Dialog Screen - Sofiaa'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          child: const Text('Change Color'),
+          onPressed: () {
+             _showColorDialog(context);
+          },
+        ),
+      ),
+    );
+  }
+
+    _showColorDialog(BuildContext context) async {
+  await showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (_) {
+      return AlertDialog(
+        title: const Text('Very important question'),
+        content: const Text('Please choose a color'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Red'),
+            onPressed: () {
+              Navigator.pop(context, Colors.red.shade700);
+            },
+          ),
+          TextButton(
+            child: const Text('Green'),
+            onPressed: () {
+              Navigator.pop(context, Colors.green.shade700);
+            },
+          ),
+          TextButton(
+            child: const Text('Blue'),
+            onPressed: () {
+              Navigator.pop(context, Colors.blue.shade700);
+            },
+          ),
+        ],
+      );
+    },
+  );
+    setState(() {});
+  }
+}
+```
+
+Soal 17 dan Hasil :     
+![alt text](images/Prak9S2.gif)   
+``` dart  
+import 'package:flutter/material.dart';
+
+class NavigationDialogScreen extends StatefulWidget {
+  const NavigationDialogScreen({super.key});
+
+  @override
+  State<NavigationDialogScreen> createState() => _NavigationDialogScreenState();
+}
+
+class _NavigationDialogScreenState extends State<NavigationDialogScreen> {
+  Color color = Colors.blue.shade700;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: color,
+      appBar: AppBar(
+        title: const Text('Navigation Dialog Screen'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          child: const Text('Change Color'),
+          onPressed: () {
+            _showColorDialog(context);
+          },
+        ),
+      ),
+    );
+  }
+
+  // Method untuk menampilkan dialog dan menangkap warna yang dipilih
+  _showColorDialog(BuildContext context) async {
+    // Menampilkan dialog dan menunggu hasilnya (warna yang dipilih)
+    Color? selectedColor = await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: const Text('Very important question'),
+          content: const Text('Please choose a color'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Pink'),
+              onPressed: () {
+                Navigator.pop(context, const Color.fromRGBO(255, 128, 171, 1));
+              },
+            ),
+            TextButton(
+              child: const Text('Matcha'),
+              onPressed: () {
+                Navigator.pop(context, const Color.fromRGBO(77, 182, 172, 1));
+              },
+            ),
+            TextButton(
+              child: const Text('Lilac'),
+              onPressed: () {
+                Navigator.pop(context, const Color.fromRGBO(186, 104, 200, 1));
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    // Jika ada warna yang dipilih, ubah warna latar belakang
+    if (selectedColor != null) {
+      setState(() {
+        color = selectedColor; // Perbarui warna latar belakang
+      });
+    }
+  }
+}    
+```       
+Penjelasan:   
+* Setiap tombol dalam dialog memanggil Navigator.pop(context, Colors.[color]) yang mengembalikan warna yang dipilih ke halaman pertama.
+* Setelah pengguna memilih warna, setState dipanggil untuk memperbarui UI dengan warna baru yang diterima dari dialog.    
+
+Gantilah 3 warna pada langkah 3 dengan warna favorit Anda!:   
+``` dart    
+actions: <Widget>[
+            TextButton(
+              child: const Text('Pink'),
+              onPressed: () {
+                Navigator.pop(context, const Color.fromRGBO(255, 128, 171, 1));
+              },
+            ),
+            TextButton(
+              child: const Text('Matcha'),
+              onPressed: () {
+                Navigator.pop(context, const Color.fromRGBO(77, 182, 172, 1));
+              },
+            ),
+            TextButton(
+              child: const Text('Lilac'),
+              onPressed: () {
+                Navigator.pop(context, const Color.fromRGBO(186, 104, 200, 1));
+              },
+            ),
+          ],
+```
+
+
+
+
 
 
 
