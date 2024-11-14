@@ -510,6 +510,107 @@ Pada langkah ini, jika terjadi error, FutureBuilder menampilkan pesan error seca
 ![alt text](images/P8L1.png)    
 
 ### Langkah 2: Isi kode navigation_first.dart   
+![alt text](images/P8L2.png)        
+Soal 15 dan Hasil:    
+![alt text](images/Prak8S1.png)   
+
+### Langkah 3: Tambah method di class _NavigationFirstState   
+![alt text](images/P8L3.png)    
+
+### Langkah 4: Buat file baru navigation_second.dart    
+![alt text](images/P8L4.png)    
+
+### Langkah 5: Buat class NavigationSecond dengan StatefulWidget    
+``` dart    
+import 'package:flutter/material.dart';
+
+class NavigationSecond extends StatefulWidget {
+  const NavigationSecond({super.key});
+
+  @override
+  State<NavigationSecond> createState() => _NavigationSecondState();
+}
+
+class _NavigationSecondState extends State<NavigationSecond> {
+  @override
+  Widget build(BuildContext context) {
+    Color color;
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Navigation Second - Sofiaaa'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              child: const Text('Red'),
+              onPressed: () {
+                color = Colors.red.shade700;
+                Navigator.pop(context, color);
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Green'),
+              onPressed: () {
+                color = Colors.green.shade700;
+                Navigator.pop(context, color);
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Blue'),
+              onPressed: () {
+                color = Colors.blue.shade700;
+                Navigator.pop(context, color);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```   
+
+### Langkah 6: Edit main.dart   
+![alt text](images/P8L6.png)    
+
+### Langkah 8: Run          
+Soal 16 dan Hasil:    
+![alt text](images/Prak8S2.gif)   
+Penjelasan:       
+Perubahan UI: UI sekarang lebih interaktif dengan tombol yang memungkinkan pengguna memilih warna dari halaman kedua, dan halaman pertama berubah warnanya sesuai dengan pilihan dari halaman kedua. Apa yang Terjadi Saat Tombol Diklik: Ketika tombol diklik, halaman kedua muncul. Setelah memilih warna, halaman pertama akan memperbarui warna berdasarkan pilihan dari halaman kedua.   
+* Gantilah 3 Warna:   
+``` dart
+ body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              child: const Text('Pink'),
+              onPressed: () {
+                color = const Color.fromRGBO(255, 128, 171, 1);
+                Navigator.pop(context, color);
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Matcha'),
+              onPressed: () {
+                color = const Color.fromRGBO(77, 182, 172, 1);
+                Navigator.pop(context, color);
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Lilac'),
+              onPressed: () {
+                color = const Color.fromRGBO(186, 104, 200, 1);
+                Navigator.pop(context, color);
+              },
+            ),
+          ],
+        ),
+      ),
+```   
 
 
 
