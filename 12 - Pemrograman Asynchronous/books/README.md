@@ -1,5 +1,5 @@
 # Praktikum 12 - Pemrograman Asynchronous
-Nama    : Masyithah Sophia Damayanti 
+Nama    : Masyithah Sophia Damayanti    
 Kelas   : TI - 3C       
 No      : 15        
 NIM     : 2241720011        
