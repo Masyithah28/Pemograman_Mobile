@@ -369,16 +369,153 @@ Penjelasan:
 Perbedaan Kode Langkah 1 dan Langkah 4
 
 Langkah 1: Menggunakan then(), catchError, dan whenComplete.        
-* Memanfaatkan callback then() untuk menangani success dan catchError untuk menangani error.
-* whenComplete akan dijalankan setelah proses selesai, baik itu sukses maupun gagal.
-* Kode ini lebih pendek namun mungkin sulit dibaca ketika ada banyak nested callbacks.    
+  * Memanfaatkan callback then() untuk menangani success dan catchError untuk menangani error.
+  * whenComplete akan dijalankan setelah proses selesai, baik itu sukses maupun gagal.
+  * Kode ini lebih pendek namun mungkin sulit dibaca ketika ada banyak nested callbacks.          
+
 Langkah 4: Menggunakan try-catch-finally dengan async/await.    
+  * Lebih sederhana dan rapi karena menggunakan try-catch untuk menangani error.
+  * finally berfungsi mirip dengan whenComplete dalam then(), tetapi lebih terstruktur dalam pola async/await.
+  * Cocok untuk kode asynchronous yang lebih kompleks, karena async/await lebih mudah dibaca dan dipahami.    
 
-* Lebih sederhana dan rapi karena menggunakan try-catch untuk menangani error.
-* finally berfungsi mirip dengan whenComplete dalam then(), tetapi lebih terstruktur dalam pola async/await.
-* Cocok untuk kode asynchronous yang lebih kompleks, karena async/await lebih mudah dibaca dan dipahami.    
+##  Praktikum 6: Menggunakan Future dengan StatefulWidget   
 
-##  Praktikum 6: Menggunakan Future dengan StatefulWidget
+### Langkah 1: install plugin geolocator    
+![alt text](images/P6L1.png)    
+
+### Langkah 2: Tambah permission GPS    
+![alt text](images/P6L2.png)    
+
+### Langkah 3: Buat file geolocation.dart   
+![alt text](images/P6L3.png)    
+
+### Langkah 4: Buat StatefulWidget
+Buat class LocationScreen di dalam file geolocation.dart    
+
+### Langkah 5: Isi kode geolocation.dart    
+``` dart    
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+
+class LocationScreen extends StatefulWidget {
+  const LocationScreen({super.key});
+
+  @override
+  State<LocationScreen> createState() => _LocationScreenState();
+}
+
+class _LocationScreenState extends State<LocationScreen> {
+  String myPosition = '';
+  @override
+  void initState() {
+    super.initState();
+    getPosition().then((Position myPos) {
+      myPosition =
+          'Latitude: ${myPos.latitude.toString()} - Longitude:${myPos.longitude.toString()}';
+      setState(() {
+        myPosition = myPosition;
+    });
+  });
+
+}
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Current Location')),
+      body: Center(child: Text(myPosition)),
+    );
+  }
+  Future<Position> getPosition() async {
+    await Geolocator.requestPermission();
+    await Geolocator.isLocationServiceEnabled();
+    Position? position = await Geolocator.getCurrentPosition();
+    return position;
+  }
+}
+```   
+Soal 11 dan Hasil:      
+![alt text](images/Prak6S1.png)      
+
+### Langkah 6: Edit main.dart   
+![alt text](images/P6L6.png)    
+
+### Langkah 7: Run    
+![alt text](images/P6L7.png)
+### Langkah 8: Tambahkan animasi loading        
+``` dart
+  @override
+  Widget build(BuildContext context) {
+    final myWidget = myPosition == ''
+    ? const CircularProgressIndicator()
+    : Text(myPosition);
+
+      return Scaffold(
+      appBar: AppBar(title: const Text('Current Location-Sofiaa')),
+      body: Center(child:myWidget),
+    );
+  }
+```
+   
+Soal 12 dan Hasil:          
+``` dart    
+Future<Position> getPosition() async {
+  await Geolocator.requestPermission();
+  await Geolocator.isLocationServiceEnabled();
+  await Future.delayed(const Duration(seconds: 3));
+  Position? position = await Geolocator.getCurrentPosition();
+  return position;
+}
+```
+![alt text](images/Prak6S2.gif)   
+Penjelasan:         
+Tidak, GPS tidak akan bekerja di browser karena browser tidak memiliki izin untuk mengakses layanan GPS perangkat secara langsung seperti halnya pada device fisik atau emulator mobile.    
+
+## Praktikum 7: Manajemen Future dengan FutureBuilde    
+
+### Langkah 1: Modifikasi method getPosition()    
+![alt text](images/P7L1.png)    
+``` dart    
+  Future<Position> getPosition() async {
+    await Geolocator.isLocationServiceEnabled();
+    await Future.delayed(const Duration(seconds: 3));
+    Position position = await Geolocator.getCurrentPosition();
+    return position;
+  }
+```   
+
+### Langkah 2: Tambah variabel    
+![alt text](images/P7L2.png)        
+
+### Langkah 3: Tambah initState()   
+![alt text](images/P7L3.png)    
+
+### Langkah 4: Edit method build()    
+![alt text](images/P7L4.png)    
+Soal 13 dan Hasil:    
+![alt text](images/Prak7S1.gif)   
+Penjelasan:   
+Perbedaan UI dengan praktikum sebelumnya adalah bahwa FutureBuilder menyediakan tampilan yang lebih efisien, rapi, dan reaktif. Hal ini karena FutureBuilder secara otomatis memperbarui UI berdasarkan status Future, seperti waiting atau done, tanpa perlu setState secara manual.   
+
+### Langkah 5: Tambah handling error    
+![alt text](images/P7L5.png)    
+Soal 14 dan Hasil:    
+![alt text](images/Prak7S2.gif)   
+Penjelasan:   
+Pada langkah ini, jika terjadi error, FutureBuilder menampilkan pesan error secara otomatis. UI sekarang memiliki kemampuan untuk menampilkan pesan "Something terrible happened!" jika ada masalah pada proses pengambilan data lokasi, membuat aplikasi lebih informatif dan ramah pengguna.    
+
+## Praktikum 8: Navigation route dengan Future Function   
+
+### Langkah 1: Buat file baru navigation_first.dart   
+![alt text](images/P8L1.png)    
+
+### Langkah 2: Isi kode navigation_first.dart   
+
+
+
+
+
+
 
 
 
