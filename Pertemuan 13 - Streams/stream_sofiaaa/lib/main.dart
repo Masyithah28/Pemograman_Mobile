@@ -19,7 +19,6 @@ class MyApp extends StatelessWidget {
       ),
       home: const StreamHomePage(),
     );
-    
   }
 }
 
@@ -33,6 +32,13 @@ class StreamHomePage extends StatefulWidget {
 class _StreamHomePageState extends State<StreamHomePage> {
   Color bgColor = Colors.blueGrey;
   late ColorStream colorStream;
+
+  int lastNumber = 0;
+  late StreamController numberStreamController;
+  late NumberStream numberStream;
+  late StreamTransformer transformer;
+  late StreamSubscription subscription;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,8 +56,12 @@ class _StreamHomePageState extends State<StreamHomePage> {
               style: const TextStyle(fontSize: 24),
             ),
             ElevatedButton(
-              onPressed: addRandomNumber,
+              onPressed: () => addRandomNumber(),
               child: const Text('New Random Number'),
+            ),
+            ElevatedButton(
+              onPressed: () => stopStream(),
+              child: const Text('Stop Subscription'),
             ),
           ],
         ),
@@ -59,54 +69,77 @@ class _StreamHomePageState extends State<StreamHomePage> {
     );
   }
 
-  int lastNumber = 0;
-  late StreamController numberStreamController;
-  late NumberStream numberStream;
-  
   @override
-   void initState() {
+  void initState() {
+    // super.initState();
     numberStream = NumberStream();
     numberStreamController = numberStream.controller;
+
+    // Menyusun stream dan mendengarkan perubahan data
     Stream stream = numberStreamController.stream;
-    stream.listen((event) {
-        setState(() {
-          lastNumber = event;
-        });
-      },
-      onError: (error) {
-        setState(() {
-          lastNumber = -1;
-        });
-      },
-    );
+    subscription = stream.listen((event) {
+      setState(() {
+        lastNumber = event;
+      });
+    });
     super.initState();
+    subscription.onError((error) {
+      setState(() {
+        lastNumber = -1;
+      });
+    });
+    // stream.transform(transformer).listen(
+    //   (event) {
+    //     setState(() {
+    //       lastNumber = event;
+    //     });
+    //   },
+    //   onError: (error) {
+    //     setState(() {
+    //       lastNumber = -1;
+    //     });
+    //   },
+    // );
+    subscription.onDone(() {
+      print('OnDone was called');
+    });
+    // super.initState();
     // colorStream = ColorStream();
     // changeColor();
   }
 
   @override
-    void dispose() {
-      numberStreamController.close();
-      super.dispose();
-    }
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
+  }
 
   void changeColor() async {
-      colorStream.getColors().listen((eventColor) {
-       setState(() {
+    colorStream.getColors().listen((eventColor) {
+      setState(() {
         bgColor = eventColor;
-       });
       });
-      // await for (var eventColor in colorStream.getColors()) {
-      //   setState(() {
-      //   bgColor = eventColor;
-      //  });
-      // }
-    }
+    });
+    // await for (var eventColor in colorStream.getColors()) {
+    //   setState(() {
+    //   bgColor = eventColor;
+    //  });
+    // }
+  }
 
   void addRandomNumber() {
     Random random = Random();
     int myNum = random.nextInt(10);
-    numberStream.addNumberToSink(myNum);
-    // numberStream.addError();
+    if (!numberStreamController.isClosed) {
+      numberStream.addNumberToSink(myNum);
+    } else {
+      setState(() {
+        lastNumber = -1;
+      });
+    }
+  }
+
+  void stopStream() {
+    numberStreamController.close();
   }
 }

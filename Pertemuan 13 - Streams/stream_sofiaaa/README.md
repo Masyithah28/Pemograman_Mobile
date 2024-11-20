@@ -450,6 +450,148 @@ Jawab:
 
 ## Praktikum 3: Injeksi data ke streams   
 
+### Langkah 1: Buka main.dart     
+``` dart      
+late StreamTransformer transformer;
+```     
+
+### Langkah 2: Tambahkan kode ini di initState      
+``` dart   
+final transformer = StreamTransformer<int, int>.fromHandlers(
+        handleData: (value, sink) {
+          sink.add(value * 10);
+        },
+        handleError: (error, trace, sink) {
+          sink.add(-1);
+        },
+        handleDone: (sink) => sink.close()
+    );    
+```         
+
+### Langkah 3: Tetap di initState     
+``` dart    
+stream.transform(transformer).listen((event) {
+        setState(() {
+          lastNumber = event;
+        });
+      },
+      onError: (error) {
+        setState(() {
+          lastNumber = -1;
+        });
+      },
+    );
+    super.initState();
+```     
+###  Langkah 4: Run         
+![alt text](images/Prak3.gif)   
+
+## Praktikum 4: Subscribe ke stream events    
+
+### Langkah 1: Tambah variabel    
+``` dart    
+late StreamSubscription subscription;   
+```
+
+### Langkah 2: Edit initState() 
+``` dart
+void initState() {
+    super.initState();
+    numberStream = NumberStream();
+    numberStreamController = numberStream.controller;
+
+    // Menyusun stream dan mendengarkan perubahan data
+    Stream stream = numberStreamController.stream;
+    subscription = stream.listen((event) {
+      setState(() {
+        lastNumber = event;
+        });
+      });
+      super.initState();
+    }   
+```   
+
+### Langkah 3: Tetap di initState()     
+``` dart    
+subscription.onError((error) {
+        setState(() {
+          lastNumber = -1;
+        });
+      });
+```       
+
+### Langkah 4: Tambah properti onDone()     
+``` dart    
+subscription.onDone(() {
+  print('OnDone was called');
+});
+```   
+
+### Langkah 5: Tambah method baru   
+``` dart
+ void stopStream() {
+  numberStreamController.close();
+}   
+``` 
+
+### Langkah 6: Pindah ke method dispose()   
+``` dart    
+@override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
+  }   
+```
+
+### Langkah 7: Pindah ke method build()     
+``` dart    
+ ElevatedButton(
+    onPressed: () => stopStream,
+    child: const Text('Stop Subscription'),
+  ),
+```   
+
+### Langkah 8: Edit method addRandomNumber()    
+``` dart    
+ void addRandomNumber() {
+  Random random = Random();
+  int myNum = random.nextInt(10);
+  if (!numberStreamController.isClosed) {
+    numberStream.addNumberToSink(myNum);
+  } else {
+    setState(() {
+       lastNumber = -1;
+      });
+    }
+  }
+```   
+
+### Langkah 9: Run    
+![alt text](images/Prak4.gif)   
+
+### Langkah 10: Tekan button ‘Stop Subscription'    
+![alt text](images/P4L10.png)   
+
+Soal 9 dan Hasil:     
+* Jelaskan maksud kode langkah 2, 6 dan 8 tersebut!   
+  - Langkah 2:    
+  Kode ini menginisialisasi stream dan mendengarkan perubahan data yang dikirimkan oleh stream. Ketika data baru diterima, setState() dipanggil untuk memperbarui UI.
+
+  - Langkah 6:    
+  Pada langkah ini, kita membatalkan subscription pada stream ketika widget dibuang (dispose()) untuk mencegah kebocoran memori dan memastikan tidak ada data yang diterima lagi setelah widget dihapus.    
+  
+  - Langkah 8:    
+  Kode ini memeriksa apakah StreamController masih terbuka sebelum menambahkan data baru ke stream. Jika stream sudah ditutup, nilai lastNumber diperbarui untuk menandakan kesalahan.    
+
+* Capture hasil praktikum Anda berupa GIF dan lampirkan di README.      
+Hasil:    
+![alt text](images/Prak4S10.gif)    
+
+## Praktikum 5: Multiple stream subscriptions     
+
+### 
+
+
 
 
 
