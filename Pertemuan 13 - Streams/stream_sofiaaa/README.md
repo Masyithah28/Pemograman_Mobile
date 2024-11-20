@@ -448,6 +448,8 @@ class NumberStream {
 Jawab:       
 ![alt text](images/Prak2S7.png)       
 
+## Praktikum 3: Injeksi data ke streams   
+
 
 
 
