@@ -38,6 +38,9 @@ class _StreamHomePageState extends State<StreamHomePage> {
   late NumberStream numberStream;
   late StreamTransformer transformer;
   late StreamSubscription subscription;
+  late StreamSubscription subscription2;
+  String values = '';
+
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +54,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Text(values), 
             Text(
               lastNumber.toString(),
               style: const TextStyle(fontSize: 24),
@@ -76,16 +80,17 @@ class _StreamHomePageState extends State<StreamHomePage> {
     numberStreamController = numberStream.controller;
 
     // Menyusun stream dan mendengarkan perubahan data
-    Stream stream = numberStreamController.stream;
-    subscription = stream.listen((event) {
+    Stream stream = numberStreamController.stream.asBroadcastStream();
+
+      subscription = stream.listen((event) {
       setState(() {
-        lastNumber = event;
+      values += '$event -';
+      // lastNumber = event;
       });
     });
-    super.initState();
-    subscription.onError((error) {
+    subscription = stream.listen((event) {
       setState(() {
-        lastNumber = -1;
+        values += '$event -';
       });
     });
     // stream.transform(transformer).listen(

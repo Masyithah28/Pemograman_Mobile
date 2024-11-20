@@ -589,7 +589,62 @@ Hasil:
 
 ## Praktikum 5: Multiple stream subscriptions     
 
-### 
+### Langkah 1: Buka file main.dart    
+``` dart    
+late StreamSubscription subscription2;
+String values = '';
+```   
+
+### Langkah 2: Edit initState()   
+``` dart    
+Stream stream = numberStreamController.stream;
+      subscription = stream.listen((event) {
+      setState(() {
+      values += '$event -';
+      // lastNumber = event;
+      });
+    });
+    subscription = stream.listen((event) {
+      setState(() {
+        values += '$event -';
+      });
+    });   
+```     
+
+### Langkah 3: Run        
+![alt text](images/P5L3.png)        
+
+Soal 10 dan Hasil:          
+Error terjadi karena variabel subscription diinisialisasi dua kali untuk stream yang sama, yang menyebabkan konflik dalam mendengarkan data. Untuk memperbaikinya, hanya satu subscription yang dibutuhkan untuk stream, dan kedua pembaruan dapat dilakukan dalam satu listener.   
+
+### Langkah 4: Set broadcast stream   
+``` dart    
+ Stream stream = numberStreamController.stream.asBroadcastStream();   
+```     
+
+### Langkah 5: Edit method build()    
+``` dart    
+child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(values), 
+```   
+
+### Langkah 6: Run        
+Soal 11 dan Hasil:    
+* Jelaskan mengapa hal itu bisa terjadi ?   
+Jawab:    
+Hal ini terjadi karena setelah stream diubah menjadi broadcast stream, event yang sama diterima oleh lebih dari satu listener. Oleh karena itu, setiap event yang dihasilkan akan diproses oleh semua listener, menyebabkan pembaruan pada UI dua kali.   
+
+* Capture hasil praktikum Anda berupa GIF dan lampirkan di README.      
+![alt text](images/Prak5S11.gif)      
+
+
+
+
+
+
 
 
 
