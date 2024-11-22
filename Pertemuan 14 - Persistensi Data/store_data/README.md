@@ -272,8 +272,123 @@ String json = convertToJSON(myPizzas);
 ### Jalankan aplikasi. Anda akan melihat string JSON dicetak, seperti yang ditunjukkan pada gambar berikut:     
 ![alt text](images/P2L5.png)        
 
-## Praktikum 3: Saving data simply with SharedPreferences       
+## Praktikum 6: Using secure storage to store data    
 
-### Gunakan project pada pertemuan 11 bernama books. Pertama, tambahkan ketergantungan pada shared_preferences. Dari Terminal Anda, ketikkan perintah berikut       
+### Tambahkan flutter_secure_storage ke proyek Anda, dengan mengetik:   
+![alt text](images/P6L1.png)    
 
+### Di file main.dart, salin kode berikut:    
+``` dart    
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter JSON Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+      ),
+      home: const MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  // String pizzaString = '';
+  // List<Pizza> myPizzas = [];
+  final pwdController = TextEditingController();
+  String myPass ='';
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Path Provider')),
+      body:SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                controller: pwdController,
+              ),
+              ElevatedButton(child: const Text('Save Value'), onPressed: (){}),
+              ElevatedButton(child: const Text('Red Value'), onPressed: (){}),
+              Text(myPass),
+            ],
+          ),
+        ),
+      ),
+      // body: Container(),
+    );
+  }
+```   
+
+### Di bagian atas file main.dart, tambahkan impor yang diperlukan:   
+``` dart    
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+```   
+
+### Di bagian atas kelas _myHomePageState, buat penyimpanan yang aman:    
+``` dart    
+final storage = const FlutterSecureStorage();
+final myKey = 'myPass';
+```   
+
+### Di kelas _myHomePageState, tambahkan metode untuk menulis data ke penyimpanan aman:   
+``` dart    
+  Future writeToSecureStorage() async {
+    await storage.write(key: myKey, value: pwdController.text);
+  }
+```   
+
+### Pada metode build() dari kelas _myHomePageState, tambahkan kode yang akan menulis ke penyimpanan ketika pengguna menekan tombol Save Value, cek kode cetak tebal:   
+``` dart    
+ElevatedButton(
+                child: const Text('Save Value'),
+                onPressed: (){writeToSecureStorage();
+                }),
+```   
+
+### Di kelas _myHomePageState, tambahkan metode untuk membaca data dari penyimpanan aman:   
+``` dart    
+Future<String> readFromSecureStorage() async{
+    String secret = await storage.read(key: myKey)?? '';
+    return secret;
+  }
+```   
+
+### Pada metode build() dari kelas _myHomePageState, tambahkan kode untuk membaca dari penyimpanan ketika pengguna menekan tombol Read Value dan memperbarui variabel myPass State:   
+``` dart    
+ElevatedButton(
+                child: const Text('Read Value'),
+                onPressed: (){readFromSecureStorage().then((value){
+                  setState(() {
+                    myPass = value;
+                  });
+                });
+              }),
+```   
+
+### Jalankan aplikasi dan tulis beberapa teks pilihan Anda di bidang teks. Kemudian, tekan tombol Save Value. Setelah itu, tekan tombol Read Value. Anda akan melihat teks yang Anda ketik di kolom teks, seperti yang ditunjukkan pada tangkapan layar berikut:    
+![alt text](images/P6L9.gif)
+
+    
 

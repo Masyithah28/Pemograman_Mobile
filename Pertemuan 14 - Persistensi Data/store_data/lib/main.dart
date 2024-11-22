@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import './pizza.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter JSON Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
       ),
       home: const MyHomePage(),
     );
@@ -30,56 +31,80 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String pizzaString = '';
-  List<Pizza> myPizzas = [];
+  // String pizzaString = '';
+  // List<Pizza> myPizzas = [];
+  final pwdController = TextEditingController();
+  String myPass ='';
+  final storage = const FlutterSecureStorage();
+  final myKey = 'myPass';
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('JSON')),
-      body: ListView.builder(
-        itemCount: myPizzas.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(myPizzas[index].pizzaName),
-            subtitle: Text(myPizzas[index].description),
-          );
-        },
+      appBar: AppBar(title: const Text('Path Provider')),
+      body:SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                controller: pwdController,
+              ),
+              ElevatedButton(
+                child: const Text('Save Value'),
+                onPressed: (){writeToSecureStorage();
+                }),
+              ElevatedButton(
+                child: const Text('Read Value'),
+                onPressed: (){readFromSecureStorage().then((value){
+                  setState(() {
+                    myPass = value;
+                  });
+                });
+              }),
+              Text(myPass),
+            ],
+          ),
+        ),
       ),
       // body: Container(),
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    readJsonFile().then((value) {
-      setState(() {
-        myPizzas = value;
-      });
-    });
+  Future writeToSecureStorage() async {
+    await storage.write(key: myKey, value: pwdController.text);
   }
 
-  Future<List<Pizza>> readJsonFile() async {
-    String myString = await DefaultAssetBundle.of(context)
-        .loadString('assets/pizzalist.json');
-    List pizzaMapList = jsonDecode(myString);
-    // setState((){
-    //   pizzaString = myString;
-    // });
-
-    List<Pizza> myPizzas = [];
-    for (var pizza in pizzaMapList) {
-      Pizza myPizza = Pizza.fromJson(pizza);
-      myPizzas.add(myPizza);
-    }
-    String json = convertToJSON(myPizzas);
-    print(json);
-    return myPizzas;
+  Future<String> readFromSecureStorage() async{
+    String secret = await storage.read(key: myKey)?? '';
+    return secret;
   }
 
-  String convertToJSON(List<Pizza> pizzas) {
-    return jsonEncode(pizzas.map((pizza) => jsonEncode(pizza)).toList());
-  }
+  // Future<List<Pizza>> readJsonFile() async {
+  //   String myString = await DefaultAssetBundle.of(context)
+  //       .loadString('assets/pizzalist.json');
+  //   List pizzaMapList = jsonDecode(myString);
+  //   // setState((){
+  //   //   pizzaString = myString;
+  //   // });
+
+  //   List<Pizza> myPizzas = [];
+  //   for (var pizza in pizzaMapList) {
+  //     Pizza myPizza = Pizza.fromJson(pizza);
+  //     myPizzas.add(myPizza);
+  //   }
+  //   String json = convertToJSON(myPizzas);
+  //   print(json);
+  //   return myPizzas;
+  // }
+
+  // String convertToJSON(List<Pizza> pizzas) {
+  //   return jsonEncode(pizzas.map((pizza) => jsonEncode(pizza)).toList());
+  // }
 
 }
