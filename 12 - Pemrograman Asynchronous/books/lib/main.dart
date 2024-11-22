@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:async/async.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 void main() {
@@ -25,9 +26,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const NavigationDialogScreen(),
+      // home: const NavigationDialogScreen(),
       // home: const NavigationFirst(),
-      // home: const FuturePage(),
+      home: const FuturePage(),
     );
   }
 }
@@ -41,6 +42,8 @@ class FuturePage extends StatefulWidget {
 
 class _FuturePageState extends State<FuturePage> {
   String result = '';
+  int appCounter = 0;
+
   late Completer completer;
 
 Future getNumber() {
@@ -58,64 +61,52 @@ Future calculate() async {
     completer.completeError({});
   }
 }
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Back from the Future Sofiaaa'),
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Back from the Future Sofiaaa'),
+    ),
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text('You have opened the app $appCounter times.'),
+          ElevatedButton(
+            onPressed: () {
+              deletePreference();
+            },
+            child: const Text('Reset counter'),
+          ),
+          const Spacer(),
+          ElevatedButton(
+            child: const Text('GO!'),
+            onPressed: () {
+              returnError()
+                  .then((value) {
+                    setState(() {
+                      result = 'Success';
+                    });
+                  })
+                  .catchError((onError) {
+                    setState(() {
+                      result = onError.toString();
+                    });
+                  })
+                  .whenComplete(() => print('Complete'));
+            },
+          ),
+          const Spacer(),
+          Text(result),
+          const Spacer(),
+          const CircularProgressIndicator(),
+          const Spacer(),
+        ],
       ),
-      body: Center(
-        child: Column(
-          children: [
-            const Spacer(),
-            ElevatedButton(
-              child: Text('GO!'),
-              onPressed: (){
-                returnError()
-                .then ((value){
-                  setState(() {
-                    result ='Success';
-                  });
-                }).catchError((onError){
-                  setState(() {
-                    result = onError.toString();
-                  });
-                }).whenComplete(() => print('Complete'));
-                // returnFG();
-              //   getNumber().then( (value) {
-              //   setState(() {
-              //     result = value. toString();
-              //   });
-              // }).catchError((_){
-              //     result = 'An error occured';
-              //   });
-                //count();
-                // setState(() {
-                  
-                // });
-                // getData().then((value){
-                //   result = value.body.toString().substring(0,450);
-                //   setState(() {
-                    
-                //   });
-                // }).catchError((_){
-                //   result = 'An error occured';
-                //   setState(() {
-                    
-                //   });
-                // });
-              },
-            ),
-            const Spacer(),
-            Text(result),
-            const Spacer(),
-            const CircularProgressIndicator(),
-            const Spacer(),
-          ],
-        ),
-      ),
-    );
-  }
+    ),
+  );
+}
+
 
   Future<Response> getData() async {
     const authority = 'www.googleapis.com';
@@ -184,5 +175,30 @@ Future calculate() async {
       print('Complete');
     }
   }
+  Future readAndWritePreference() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    appCounter = prefs.getInt('appCounter') ?? 0;
+    appCounter++;
+    await prefs.setInt('appCounter', appCounter);
+
+    setState(() {
+      appCounter = appCounter;  
+    });
+  }
+
+  Future deletePreference() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    setState(() {
+      appCounter = 0;
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    readAndWritePreference();
+  } 
 
 }
